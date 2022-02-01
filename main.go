@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"encoding/base64"
+	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"os"
@@ -25,6 +27,18 @@ type (
 		Username, Discrim string
 	}
 )
+
+var (
+	devMode        *bool
+	outputLocation *string
+)
+
+func init() {
+	devMode = flag.Bool("dev", false, "toggles dev mode (output HTML instead of generating image)")
+	outputLocation = flag.String("out", "output.png", "sets the output file destination")
+
+	flag.Parse()
+}
 
 func main() {
 	file, err := os.ReadFile("template.html")
@@ -57,7 +71,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	screenshot(out.String())
+	if devMode != nil && *devMode {
+		fmt.Println("dev mode", out.String())
+		os.WriteFile(*outputLocation, out.Bytes(), 0664)
+	} else {
+		fmt.Println("not dev mode")
+		screenshot(out.String())
+	}
 }
 
 func makeDataURL(html string) string {
@@ -81,5 +101,5 @@ func screenshot(html string) {
 		log.Fatal(err)
 	}
 
-	utils.OutputFile("output.png", img)
+	utils.OutputFile(*outputLocation, img)
 }

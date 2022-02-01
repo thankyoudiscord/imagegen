@@ -2,11 +2,11 @@ package main
 
 import (
 	"math/rand"
+	"strconv"
 	"time"
 )
 
-const charset = "abcdefghijklmnopqrstuvwxyz" +
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+var charset = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -25,15 +25,17 @@ func randUsername() string {
 
 	nameLength := rand.Intn(MAX_USERNAME_LEN-MIN_USERNAME_LEN) + MIN_USERNAME_LEN
 
-	b := make([]byte, nameLength)
-
-	for i := range b {
-		b[i] = charset[rand.Intn(nameLength)]
-	}
-
-	return string(b)
+	return randseq(nameLength)
 }
 
 func randDiscriminator() string {
-	return string(rand.Intn(10_000-1_000) + 1_000)
+	return strconv.Itoa(rand.Intn(10_000-1_000) + 1_000)
+}
+
+func randseq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+	return string(b)
 }
