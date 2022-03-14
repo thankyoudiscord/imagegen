@@ -1,0 +1,6 @@
+/build
+/node_modules
+
+*.swp
+*.vim
+.DS_STORE
