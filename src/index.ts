@@ -1,5 +1,6 @@
 import {chromium} from 'playwright';
 import {fetch} from 'undici';
+import * as ejs from 'ejs';
 
 import {readdir, readFile, writeFile} from 'fs/promises';
 import path = require('path');
@@ -9,11 +10,15 @@ const FONT_CLASSES = [
   '.font-whitney {font-family: Whitney, serif, sans-serif;}',
 ].join('\n');
 
+const EJS_DATA = {
+  name: 'coding',
+};
+
 const main = async () => {
   const styles = await generateFontStyles();
   const tailwind = await getTailwind();
 
-  const html = await readFile(path.join(process.cwd(), './test.html'), {
+  const ejsString = await readFile(path.join(process.cwd(), './test.ejs'), {
     encoding: 'utf8',
   });
 
@@ -28,6 +33,8 @@ const main = async () => {
 
   const takeScreenshot = async (id: number) => {
     const before = Date.now();
+
+    const html = ejs.render(ejsString, EJS_DATA);
 
     await page.setContent(html.replace('{{id}}', id.toString()));
     await page.addScriptTag({content: tailwind});

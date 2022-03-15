@@ -2,7 +2,7 @@
   "exitcrash": false,
   "verbose": true,
   "runOnChangeOnly": false,
-  "watch": ["src", "lib", "./test.html"],
+  "watch": ["src", "lib", "./test.html", "test.ejs"],
   "ignore": ["./node_modules", "./build", "./test", "*.log", "*.vim"],
   "ext": "js,ts,json,yaml,yml,toml,html,css",
   "exec": "ts-node -r tsconfig-paths/register src/index.ts"
