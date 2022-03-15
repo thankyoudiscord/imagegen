@@ -10,10 +10,6 @@ const FONT_CLASSES = [
   '.font-whitney {font-family: Whitney, serif, sans-serif;}',
 ].join('\n');
 
-const EJS_DATA = {
-  name: 'coding',
-};
-
 const main = async () => {
   const styles = await generateFontStyles();
   const tailwind = await getTailwind();
@@ -22,10 +18,25 @@ const main = async () => {
     encoding: 'utf8',
   });
 
+  const bgSvg = await readFile(
+    path.join(process.cwd(), './assets/img/bg.svg'),
+    {
+      encoding: 'utf8',
+    }
+  );
+
+  let users = JSON.parse(
+    String(await readFile('./users.json'))
+  ) as Array<object>;
+
+  users = users.slice(0, 275);
+
+  console.log(users.length);
+
   const browser = await chromium.launch();
   const ctx = await browser.newContext({
     // viewport: {height: 2160, width: 3840}, // 4k
-    viewport: {height: 1080, width: 1920}, // 1080
+    viewport: {height: 400, width: 1600}, // 1080
   });
   const page = await ctx.newPage();
 
@@ -34,9 +45,11 @@ const main = async () => {
   const takeScreenshot = async (id: number) => {
     const before = Date.now();
 
-    const html = ejs.render(ejsString, EJS_DATA);
-
-    await page.setContent(html.replace('{{id}}', id.toString()));
+    const html = ejs.render(ejsString, {
+      bg: bgSvg,
+      users,
+    });
+    await page.setContent(html);
     await page.addScriptTag({content: tailwind});
     await page.addStyleTag({content: styles});
     await page.addStyleTag({content: FONT_CLASSES});

@@ -5,3 +5,4 @@
 *.vim
 .DS_STORE
 /out*
+users.json
