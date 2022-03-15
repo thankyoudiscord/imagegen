@@ -4,3 +4,4 @@
 *.swp
 *.vim
 .DS_STORE
+/out*

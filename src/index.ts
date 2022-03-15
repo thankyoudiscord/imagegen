@@ -19,7 +19,8 @@ const main = async () => {
 
   const browser = await chromium.launch();
   const ctx = await browser.newContext({
-    viewport: {height: 1080, width: 1920},
+    // viewport: {height: 2160, width: 3840}, // 4k
+    viewport: {height: 1080, width: 1920}, // 1080
   });
   const page = await ctx.newPage();
 
