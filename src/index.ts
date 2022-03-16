@@ -29,14 +29,14 @@ const main = async () => {
     String(await readFile('./users.json'))
   ) as Array<object>;
 
-  users = users.slice(0, 275);
+  users = users.slice(0, 400);
 
   console.log(users.length);
 
   const browser = await chromium.launch();
   const ctx = await browser.newContext({
     // viewport: {height: 2160, width: 3840}, // 4k
-    viewport: {height: 400, width: 1600}, // 1080
+    viewport: {height: 600, width: 1800}, // 1080
   });
   const page = await ctx.newPage();
 

@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <body class="p-2">
+  <body class="p-6">
     <div class="z-10 text-white">
-      <div class="flex mb-2">
+      <div class="mb-2">
         <h1 class="font-bold text-5xl font-ginto flex-none">
-          Happy Birthday Discord!
+          Happy 7th Birthday, Discord!
         </h1>
-        <h2 class="font-medium text-1xl font-ginto">
-          Thank you for building the home for community, and other stuff lol idk
-          ill make this later :)
-        </h2>
       </div>
-      <div style="font-size: 1rem; line-height: 1rem">
-        <div class="flex flex-wrap">
-          <% for (const user of users) { %>
-          <div class="mr-1"><%= user.username %>#<%= user.discriminator %></div>
-          <% } %>
+      <div class="flex">
+        <div
+          style="font-size: 0.7rem; line-height: 0.95rem"
+          class="w-3/4 flex-none"
+        >
+          <p class="font-ginto text-justify">
+            <span>
+              <% for (const user of users) { %>
+              <span class="font-medium"><%= user.username %></span>#<%=
+              user.discriminator %> <% } %>
+            </span>
+          </p>
+        </div>
+        <div>
+          <h2 class="font-medium text-1xl font-ginto ml-4 leading-snug">
+            Thank you for building the home for community, and other stuff lol
+            idk ill make this later :)<br />
+            ~ The Discord Community
+          </h2>
         </div>
       </div>
     </div>
