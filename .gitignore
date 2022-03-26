@@ -1,8 +1,8 @@
-/build
-/node_modules
-
+*.log
 *.swp
 *.vim
 .DS_STORE
+/build
+/node_modules
 /out*
 users.json
