@@ -5,9 +5,11 @@
     "outDir": "build",
     "skipLibCheck": true,
     "baseUrl": ".",
+    "allowJs": true,
+    "typeRoots": ["node_modules/@types", "lib/types"],
     "paths": {
       "imagegen": ["./lib"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "lib/**/*.ts"]
 }
