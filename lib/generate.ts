@@ -5,7 +5,9 @@ import {fetch} from 'undici';
 
 import path = require('path');
 
-const TAILWIND_CDN = 'https://cdn.tailwindcss.com';
+// sometimes I work on this offline and it's nice to be able to serve tailwind
+// locally and not have to redownload it with each restart :P
+const TAILWIND_CDN = process.env.TAILWIND || 'https://cdn.tailwindcss.com';
 
 export interface User {
   username: string;

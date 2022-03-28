@@ -1,13 +1,23 @@
 import {Server as GRPCServer, ServerCredentials} from '@grpc/grpc-js';
+import {Client as PGClient} from 'pg';
 
-import {BannerService, ImageGenerator} from 'imagegen';
+import {BannerService, Database, ImageGenerator} from 'imagegen';
 
 import {generateBanner} from './services/banner';
 
 const wid = parseInt(process.env.IMAGE_WIDTH);
 const hei = parseInt(process.env.IMAGE_HEIGHT);
 
-const REQUIRED_ENV = ['ADDR', 'IMAGE_WIDTH', 'IMAGE_HEIGHT'];
+const REQUIRED_ENV = [
+  'ADDR',
+  'IMAGE_WIDTH',
+  'IMAGE_HEIGHT',
+  'POSTGRES_HOST',
+  'POSTGRES_PORT',
+  'POSTGRES_USER',
+  'POSTGRES_PASSWORD',
+  'POSTGRES_DB',
+];
 const missing = [];
 for (const req of REQUIRED_ENV) {
   if (!process.env[req]) {
@@ -23,9 +33,21 @@ const generator = new ImageGenerator(wid, hei);
 const main = async () => {
   await generator.init();
 
+  const pgClient = new PGClient({
+    host: process.env.POSTGRES_HOST,
+    port: parseInt(process.env.POSTGRES_PORT),
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+  });
+
+  await pgClient.connect().then(() => console.log('Connected to Postgres'));
+
+  const db = new Database(pgClient);
+
   const server = new GRPCServer();
   server.addService(BannerService, {
-    generateBanner: generateBanner(generator),
+    generateBanner: generateBanner(db, generator),
   });
 
   server.bindAsync(
@@ -49,6 +71,7 @@ main().catch(console.error);
 process.stdin.resume();
 process.on('SIGINT', async () => {
   await generator.close();
+  process.exit(0); // eslint-disable-line no-process-exit
 });
 
 // lol

@@ -4,20 +4,27 @@ import {readFile} from 'fs/promises';
 import {
   CreateBannerRequest,
   CreateBannerResponse,
+  Database,
   ImageGenerator,
   User,
 } from 'imagegen';
 
 export const generateBanner =
-  (gen: ImageGenerator) =>
+  (db: Database, gen: ImageGenerator) =>
   async (
     _call: ServerUnaryCall<CreateBannerRequest, CreateBannerResponse>,
     cb: sendUnaryData<CreateBannerResponse>
   ) => {
     const resp = new CreateBannerResponse();
 
-    const usersFile = await readFile('./users.json', 'utf8');
-    const users = (JSON.parse(usersFile) as User[]).slice(0, 400);
+    let users: User[] = [];
+
+    if (process.env?.SOURCE === 'json') {
+      const usersFile = await readFile('./users.json', 'utf8');
+      users = (JSON.parse(usersFile) as User[]).slice(0, 400);
+    } else {
+      users = await db.signatures.allUsers();
+    }
 
     const ss = await gen.screenshot(users);
 
