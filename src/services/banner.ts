@@ -23,7 +23,7 @@ export const generateBanner =
       const usersFile = await readFile('./users.json', 'utf8');
       users = (JSON.parse(usersFile) as User[]).slice(0, 400);
     } else {
-      users = await db.signatures.allUsers();
+      users = await db.signatures.all();
     }
 
     const ss = await gen.screenshot(users);
