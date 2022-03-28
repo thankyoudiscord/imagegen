@@ -2,6 +2,7 @@
 *.swp
 *.vim
 .DS_STORE
+.env
 /build
 /node_modules
 /out*

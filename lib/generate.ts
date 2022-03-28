@@ -24,7 +24,7 @@ export class ImageGenerator {
 
   /**
    * Initializes the ImageGenerator by doing the following:
-   * - reading all asset and font files
+   * - reading and inlining all assets and font files
    * - reading ejs template file
    * - downloading tailwind
    * - launching the headless browser
