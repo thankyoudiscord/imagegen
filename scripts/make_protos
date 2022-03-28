@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+ROOT="$(dirname "$0")/.."
+TS_OUT="$ROOT/lib/protos"
+JS_OUT="$ROOT/build/lib/protos"
+
+if [[ "$(uname -p)" == "arm" ]]; then
+  npm_config_target_arch=x64
+  npm_config_arch=x64
+fi
+
+if [[ ! -d "$TS_OUT" ]]; then
+  mkdir -p "$TS_OUT"
+fi
+
+if [[ ! -d "$JS_OUT" ]]; then
+  mkdir -p "$JS_OUT"
+fi
+
+protoc \
+  -I="$ROOT/protos" \
+  --plugin="protoc-gen-ts=$ROOT/node_modules/.bin/protoc-gen-ts" \
+  --plugin="protoc-gen-grpc=$ROOT/node_modules/.bin/grpc_tools_node_protoc_plugin" \
+  --grpc_out="grpc_js:$TS_OUT" \
+  --js_out="import_style=commonjs,binary:$TS_OUT" \
+  --ts_out="service=grpc-node,mode=grpc-js:$TS_OUT" \
+  $ROOT/protos/*.proto
+
+protoc \
+  -I="$ROOT/protos" \
+  --plugin="protoc-gen-grpc=$ROOT/node_modules/.bin/grpc_tools_node_protoc_plugin" \
+  --grpc_out="grpc_js:$JS_OUT" \
+  --js_out="import_style=commonjs,binary:$JS_OUT" \
+  $ROOT/protos/*.proto

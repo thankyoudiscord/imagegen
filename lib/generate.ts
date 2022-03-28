@@ -5,7 +5,9 @@ import {fetch} from 'undici';
 
 import path = require('path');
 
-const TAILWIND_CDN = 'https://cdn.tailwindcss.com';
+// sometimes I work on this offline and it's nice to be able to serve tailwind
+// locally and not have to redownload it with each restart :P
+const TAILWIND_CDN = process.env.TAILWIND || 'https://cdn.tailwindcss.com';
 
 export interface User {
   username: string;
@@ -24,7 +26,7 @@ export class ImageGenerator {
 
   /**
    * Initializes the ImageGenerator by doing the following:
-   * - reading all asset and font files
+   * - reading and inlining all assets and font files
    * - reading ejs template file
    * - downloading tailwind
    * - launching the headless browser
