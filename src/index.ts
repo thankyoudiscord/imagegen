@@ -1,4 +1,5 @@
 import {Server as GRPCServer, ServerCredentials} from '@grpc/grpc-js';
+import 'dotenv/config';
 import {Client as PGClient} from 'pg';
 
 import {BannerService, Database, ImageGenerator} from 'imagegen';
@@ -7,6 +8,8 @@ import {generateBanner} from './services/banner';
 
 const wid = parseInt(process.env.IMAGE_WIDTH);
 const hei = parseInt(process.env.IMAGE_HEIGHT);
+
+const DEFAULT_ADDR = '127.0.0.1:3000';
 
 const REQUIRED_ENV = [
   'ADDR',
@@ -51,7 +54,7 @@ const main = async () => {
   });
 
   server.bindAsync(
-    process.env.ADDR,
+    process.env.ADDR || DEFAULT_ADDR,
     ServerCredentials.createInsecure(),
     (err, port) => {
       if (err) {
