@@ -1,0 +1,13 @@
+*
+
+!/.git
+!/assets
+!/lib
+!/scripts
+!/src
+
+!/.gitmodules
+!/package.json
+!/template.ejs
+!/tsconfig.json
+!/yarn.lock

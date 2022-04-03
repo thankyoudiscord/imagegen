@@ -12,7 +12,6 @@ const hei = parseInt(process.env.IMAGE_HEIGHT);
 const DEFAULT_ADDR = '127.0.0.1:3000';
 
 const REQUIRED_ENV = [
-  'ADDR',
   'IMAGE_WIDTH',
   'IMAGE_HEIGHT',
   'POSTGRES_HOST',

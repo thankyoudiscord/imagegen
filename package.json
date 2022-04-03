@@ -22,9 +22,6 @@
     "clean": "gts clean",
     "build": "tsc && tsc-alias -s",
     "fix": "gts fix",
-    "prepare": "yarn run build",
-    "pretest": "yarn run build",
-    "posttest": "yarn run lint",
     "dev": "nodemon"
   },
   "dependencies": {
