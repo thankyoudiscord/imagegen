@@ -26,6 +26,8 @@ export const generateBanner =
       users = await db.signatures.all();
     }
 
+    // TODO: normalize usernames
+
     const ss = await gen.screenshot(users);
 
     resp.setImage(ss);

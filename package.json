@@ -25,6 +25,7 @@
     "dev": "nodemon"
   },
   "dependencies": {
+    "@aero/sanitizer": "^1.2.0",
     "@grpc/grpc-js": "^1.5.9",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",

@@ -8,9 +8,22 @@ const HEIGHT = 600;
 const gen = new ImageGenerator(WIDTH, HEIGHT);
 const main = async () => {
   await gen.init();
-  const img = await gen.screenshot(users);
 
-  writeFileSync('out.png', img);
+  const viewport = {
+    width: WIDTH,
+    height: HEIGHT,
+  };
+
+  const page = await gen.createNewPage(viewport, users);
+  const html = await page.content();
+  writeFileSync('out.html', html);
+
+  await page.screenshot({
+    fullPage: true,
+    omitBackground: true,
+    type: 'png',
+    path: './out.png',
+  });
 };
 
 main()

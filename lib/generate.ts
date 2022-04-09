@@ -1,5 +1,5 @@
 import * as ejs from 'ejs';
-import {readFile, readdir, writeFile} from 'fs/promises';
+import {readFile, readdir} from 'fs/promises';
 import {Browser, Page, chromium} from 'playwright';
 import {fetch} from 'undici';
 
@@ -57,6 +57,39 @@ export class ImageGenerator {
     this.#ejs = await readFile(path.join(process.cwd(), './template.ejs'), {
       encoding: 'utf8',
     });
+  }
+
+  // TODO: use createNewPage() in screenshot()?
+
+  /**
+   * An internal method for creating a page. Mostly used for testing purposes
+   * @param users the data of the users to embed in the page
+   * @returns the created page (don't forget to call page.close())
+   */
+  async createNewPage(
+    viewport: {width: number; height: number},
+    users: User[]
+  ): Promise<Page> {
+    if (!this.#ejs || !this.#assets || !this.#tailwind || !this.#browser) {
+      throw new Error('ImageGenerator not initializzed');
+    }
+
+    const ctx = await this.#browser.newContext({
+      viewport,
+    });
+
+    const page = await ctx.newPage();
+
+    const html = ejs.render(this.#ejs, {
+      bg: this.#assets?.bg,
+      users,
+    });
+
+    await page.setContent(html);
+    await page.addScriptTag({content: this.#tailwind});
+    await page.addStyleTag({content: this.#assets.fonts});
+
+    return page;
   }
 
   /** Closes the page and headless browser */
@@ -150,8 +183,6 @@ const generateFontStyles = async () => {
   ].join('\n');
 
   const out = [...gintoFonts, whitneyFonts, classes].join('\n');
-
-  await writeFile('out.css', out);
 
   return out;
 };
