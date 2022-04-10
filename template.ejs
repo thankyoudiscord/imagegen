@@ -15,8 +15,10 @@
           <p class="font-ginto text-justify">
             <span>
               <% for (const user of users) { %>
-              <span class="font-medium"><%= user.username %></span>#<%=
-              user.discriminator %> <% } %>
+                <span class="user">
+                  <span class="font-medium"><%= user.username %></span>#<%=user.discriminator %>
+                </span>
+              <% } %>
             </span>
           </p>
         </div>
@@ -30,6 +32,10 @@
       background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
+    }
+
+    .user {
+      white-space: nowrap;
     }
   </style>
 </html>
