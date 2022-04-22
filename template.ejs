@@ -11,13 +11,17 @@
         </h2>
       </div>
       <div class="">
-        <div style="font-size: 0.335rem; line-height: 0.335rem" class="flex-none">
+        <div
+          style="font-size: 0.335rem; line-height: 0.335rem"
+          class="flex-none"
+        >
           <p class="font-ginto text-justify">
             <span>
-              <% for (const user of users) { %>
-                <span class="user">
-                  <span class="font-medium"><%= user.username %></span>#<%=user.discriminator %>
-                </span>
+              <% for (const user of users.slice(0, 12000)) { %>
+              <span class="user">
+                <span class="font-medium"><%= user.username %></span
+                >#<%=user.discriminator %>
+              </span>
               <% } %>
             </span>
           </p>
