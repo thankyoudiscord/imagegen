@@ -2,8 +2,8 @@ const users = require('../users.json');
 const {ImageGenerator} = require('../build/lib/generate');
 const {writeFileSync} = require('fs');
 
-const WIDTH = 5300;
-const HEIGHT = 1800;
+const WIDTH = 10800;
+const HEIGHT = 4500;
 
 const gen = new ImageGenerator(WIDTH, HEIGHT);
 const main = async () => {
